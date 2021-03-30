@@ -6,9 +6,11 @@
   "scripts": {
     "watch": "tsc-watch",
     "build": "rm -rf lib && tsc",
-    "start": "webpack serve --open"
+    "start": "webpack serve --open",
+    "build": "webpack --env=production"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^8.1.0",
     "css-loader": "^5.1.1",
     "html-webpack-plugin": "^5.3.0",
     "style-loader": "^2.0.0",
