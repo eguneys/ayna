@@ -7,7 +7,7 @@
     "watch": "tsc-watch",
     "build": "rm -rf lib && tsc",
     "start": "webpack serve --open",
-    "build": "webpack --env=production"
+    "prod": "webpack --env=production"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^8.1.0",
