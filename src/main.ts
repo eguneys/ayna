@@ -17,10 +17,9 @@ export default function app(element: Element) {
 
     let play = new Play({draw, 
                          input});
-
     animate(() => {
-      input.update();
       play.update();
+      input.update();
       play.render();
     });
 

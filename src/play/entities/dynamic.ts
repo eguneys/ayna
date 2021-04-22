@@ -1,40 +1,24 @@
-import { mapRange, NRange } from '../../range';
-import { ReleaseRange } from '../../input';
 import Grid from '../grid';
 import Entity from './entity';
 
-const DeccelDxRange: NRange = [-2, 0],
-deccelToDx = mapRange(ReleaseRange, DeccelDxRange);
-
-const AccelDx0Range: NRange = [0, 1],
-MaxAccel0Range: NRange = [0, 1],
-AccelDxRange: NRange = [0, 4],
-MaxAccelRange: NRange = [0, 60],
-accelToDx = mapRange(MaxAccelRange, AccelDxRange),
-accelToDx0 = mapRange(MaxAccel0Range, AccelDx0Range);
-
-
 export default class Dynamic {
 
-  readonly grid: Grid;
+  get grid(): Grid {
+    return this.entity.grid;
+  };
+
+  get grounded(): boolean {
+    return this.entity.grounded;
+  }
+  
   readonly entity: Entity;
   remx: number = 0
   remy: number = 0
   dx: number = 0
   dy: number = 0
   
-  constructor(grid: Grid, entity: Entity) {
-    this.grid = grid;
+  constructor(entity: Entity) {
     this.entity = entity;
-  }
-
-  accelX(ax: number) {
-    this.dx = accelToDx0(Math.sign(ax)) +
-      accelToDx(Math.min(60, ax));
-  }
-
-  deccelX(ax: number) {
-    this.dx = deccelToDx(ax);
   }
 
   move() {
@@ -42,6 +26,11 @@ export default class Dynamic {
     let dx = Math.floor(this.remx);
     this.remx -= dx;
     this.moveX(dx)
+
+    this.remy += this.dy;
+    let dy = Math.floor(this.remy);
+    this.remy -= dy;
+    this.moveY(dy)
   }
 
   moveX(amount: number) {
@@ -51,6 +40,18 @@ export default class Dynamic {
       if (this.grid.collide(this.entity.ahitbox)) {
         this.dx = 0;
         this.entity.moveX(step * - 1);
+        return;
+      }
+    }
+  }
+
+  moveY(amount: number) {
+    let step = Math.sign(amount);
+    for (let i = 0; i < Math.abs(amount); i++) {
+      this.entity.moveY(step);
+      if (this.grid.collide(this.entity.ahitbox)) {
+        this.dy = 0;
+        this.entity.moveY(step * - 1);
         return;
       }
     }

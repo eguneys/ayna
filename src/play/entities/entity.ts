@@ -1,8 +1,10 @@
+import Grid from '../grid';
 import Draw from '../../draw';
 import { Rect } from '../rect';
 
 export default class Entity {
 
+  readonly grid: Grid
   readonly dim: Rect
   readonly hitbox: Rect
   get ahitbox() {
@@ -23,10 +25,21 @@ export default class Entity {
   }
   x: number
   y: number
-  
-  constructor(dim: Rect,
-              hitbox: Rect, x: number, y: number) {
 
+  get grounded() {
+    this.y += 1;
+    let res = this.grid.collide(this.ahitbox);
+    this.y -= 1;
+    return res;
+  }
+  
+  constructor(grid: Grid,
+              dim: Rect,
+              hitbox: Rect,
+              x: number,
+              y: number) {
+
+    this.grid = grid;
     this.dim = dim;
     this.hitbox = hitbox;
     this.x = x;
@@ -35,6 +48,10 @@ export default class Entity {
 
   moveX(dx: number) {
     this.x += dx;
+  }
+
+  moveY(dy: number) {
+    this.y += dy;
   }
 
   render(draw: Draw) {

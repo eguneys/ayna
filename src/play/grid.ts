@@ -41,11 +41,10 @@ export default class Grid {
   }
 
   collide(rect: Rect) {
-    let x = rect.x / this.cellW,
-    y = rect.y / this.cellH,
-    w = rect.w / this.cellW,
-    h = rect.h / this.cellH;
-
+    let x = Math.floor(rect.x / this.cellW),
+    y = Math.floor(rect.y / this.cellH),
+    w = Math.floor(rect.w / this.cellW) + 1,
+    h = Math.floor(rect.h / this.cellH) + 1;
     return this.checkRect(x, y, w, h);
   }
 
