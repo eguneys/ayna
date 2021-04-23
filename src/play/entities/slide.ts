@@ -51,10 +51,17 @@ export default class SlideDirection {
           update: this.stickUpdate.bind(this)
         }
       },
-      stickRest: {
+      stickLift: {
         hooks: {
-          update: this.stickRestUpdate.bind(this)
+          update: this.stickLiftUpdate.bind(this)
         },
+      },
+      quickStickThenRest: {
+        hooks: {
+          update: this.quickStickThenRestUpdate.bind(this)
+        },
+        ticks: t.half,
+        next: 'rest'
       },
       rest: {
         hooks: {
@@ -66,14 +73,15 @@ export default class SlideDirection {
           update: this.nowallUpdate.bind(this)
         }
       }
-    }, 'rest');
+    }, 'nowall');
     
   }
 
   upRequest() {
-    if (this.machine.current === 'rest' ||
-      this.machine.current === 'stickRest' ||
-      this.machine.current === 'stick') {
+    if (['rest',
+         'stickLift',
+         'stick',
+         'quickStickThenRest'].includes(this.machine.current)) {
       if (!this.dynamic.walled(this.direction)) {
       } else {
         if (!this.dynamic.grounded) {
@@ -88,7 +96,7 @@ export default class SlideDirection {
       if (!this.dynamic.walled(this.direction)) {
       } else {
         if (!this.dynamic.grounded) {
-          this.machine.transition('stickRest');
+          this.machine.transition('stickLift');
         }
       }
     }
@@ -96,7 +104,7 @@ export default class SlideDirection {
 
   cool() {
     if (this.machine.current === 'stick' ||
-      this.machine.current === 'stickRest') {
+      this.machine.current === 'stickLift') {
       this.machine.transition('rest');
     }
   }
@@ -110,7 +118,7 @@ export default class SlideDirection {
     this.dynamic.dy = (i-1) * this.liftVMax;
   }
 
-  stickRestUpdate(i: number) {
+  stickLiftUpdate(i: number) {
     if (this.dynamic.dy <= 0) {
       this.dynamic.dy *= 1.1;
     } else {
@@ -125,9 +133,17 @@ export default class SlideDirection {
     this.dynamic.dy = this.stickVMax;
   }
 
+  quickStickThenRestUpdate() {
+    if (this.dynamic.dy <= 0) {
+      this.dynamic.dy *= 1.1;
+    } else {
+      this.dynamic.dy = this.stickVMax;
+    }
+  }
+
   nowallUpdate() {
     if (this.dynamic.walled(this.direction)) {
-      this.machine.transition('rest');
+      this.machine.transition('quickStickThenRest');
     }
   }
 
@@ -138,6 +154,11 @@ export default class SlideDirection {
   }
 
   update() {
+    if (this.direction === -1) {
+      if (this.machine.current === 'rest') {
+        console.log(this.machine.current);
+      }
+    }
     this.machine.update();
   }
   

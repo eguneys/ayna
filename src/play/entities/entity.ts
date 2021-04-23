@@ -35,9 +35,9 @@ export default class Entity {
   }
 
   walled(dir: Direction) {
-    this.x += dir;
+    this.x += dir * 3;
     let res = this.grid.collide(this.ahitbox);
-    this.x -= dir;
+    this.x -= dir * 3;
     return res;
   }
   

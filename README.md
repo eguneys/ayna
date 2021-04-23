@@ -1,3 +1,4 @@
+[ ] Objective
 [ ] Enemies
 [ ] Shotgun
 [ ] Fit small places

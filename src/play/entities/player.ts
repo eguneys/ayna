@@ -4,6 +4,7 @@ import { Maker } from './maker';
 import { PlayerChar } from '../chars';
 import Entity from './entity';
 import Dynamic from './dynamic';
+import * as t from '../ticks';
 import { Rect } from '../rect';
 import Objects from '../objects';
 import DCus from './dcus';
@@ -50,11 +51,15 @@ export class Player extends DCus {
 
   update() {
     let xLeft = this.input.btn(InputKey.Left),
-    xRight = this.input.btn(InputKey.Right);
+    xRight = this.input.btn(InputKey.Right),
+    yUp = this.input.btn(InputKey.X);
+    
     if (xLeft > 0) {
       this.slideLeft.request();
-      this.slideRight.upRequest();
       this.runLeft.request();
+      if (yUp > 0) {
+        this.slideRight.upRequest();
+      }
     } else if (xLeft < 0) {
       this.slideLeft.cool();
       this.runLeft.cool();
@@ -62,20 +67,26 @@ export class Player extends DCus {
     }
     if (xRight > 0) {
       this.slideRight.request();
-      this.slideLeft.upRequest();
       this.runRight.request();
+
+      if (yUp > 0) {
+        this.slideLeft.upRequest();
+      }
+      
     } else if (xRight < 0) {
       this.slideRight.cool();
       this.runRight.cool();
     } else {
     }
 
-    let yUp = this.input.btn(InputKey.X);
-    if (yUp === 2) {
-      this.jump.request();
-      this.slideLeft.upRequest();
-      this.slideRight.upRequest();
-    } else if (yUp > 0) {
+    if (yUp > 0) {
+      if (yUp < t.sixth) {
+        this.slideLeft.upRequest();
+        this.slideRight.upRequest();
+      }
+      if (yUp < t.second) {
+        this.jump.request();
+      }
     } else if (yUp < 0) {
       // this.jump.request();
     } else if (yUp === 0) {
