@@ -70,7 +70,7 @@ export class Player extends DCus {
     } else {
     }
 
-    let yUp = this.input.btn(InputKey.Up);
+    let yUp = this.input.btn(InputKey.X);
     if (yUp === 2) {
       this.jump.request();
       this.slideLeft.upRequest();

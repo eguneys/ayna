@@ -22,18 +22,20 @@ export type InputState = {
   btn: number
 }
 
-export type InputMap = {
-  [key in InputKey]?: InputState
+export type InputMap<A> = {
+  [key in InputKey]?: A
 }
 
 export const ReleaseRange: NRange = [-10, 0];
 
 export default class Input {
 
-  inputs: InputMap
+  inputs: InputMap<InputState>
+  gamepadPressed: InputMap<boolean>
 
   constructor() {
-    this.inputs = {}
+    this.inputs = {};
+    this.gamepadPressed = {};
   }
 
   btn(key: InputKey) {
@@ -62,6 +64,7 @@ export default class Input {
   }
 
   update() {
+    this.updateGamepad();
     for (let key of inputKeys) {
       let input = this.inputs[key];
       if (input) {
@@ -111,6 +114,58 @@ export default class Input {
           this.down(InputKey.X);
           break;
       }
+    });
+  }
+
+  upGamepad(key: InputKey) {
+    if (this.gamepadPressed[key]) {
+      this.gamepadPressed[key] = false;
+      this.up(key);
+    }
+  }
+
+  downGamepad(key: InputKey) {
+    if (!this.gamepadPressed[key]) {
+      this.gamepadPressed[key] = true;
+      this.down(key);
+    }    
+  }
+
+  updateGamepad() {
+
+    let gamepad = navigator.getGamepads()[0];
+
+    if (gamepad) {
+      if (gamepad.axes[0] === 1) {
+        this.downGamepad(InputKey.Right);
+      } else if (gamepad.axes[0] === -1) {
+        this.downGamepad(InputKey.Left);
+      } else {
+        this.upGamepad(InputKey.Left);
+        this.upGamepad(InputKey.Right);        
+      }
+
+      if (gamepad.axes[1] === 1) {
+        this.downGamepad(InputKey.Down);
+      } else if (gamepad.axes[1] === -1) {
+        this.downGamepad(InputKey.Up);
+      } else {
+        this.upGamepad(InputKey.Down);
+        this.upGamepad(InputKey.Up);
+      }
+
+      if (gamepad.buttons[2].pressed) {
+        this.downGamepad(InputKey.X)
+      } else {
+        this.upGamepad(InputKey.X);
+      }
+    }
+
+
+  }
+
+  bindGamepad() {
+    window.addEventListener('gamepadconnected', e => {
     });
   }
 

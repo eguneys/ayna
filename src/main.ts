@@ -14,6 +14,7 @@ export default function app(element: Element) {
     let draw = new Draw(canvas.ctx, image);
     let input = new Input();
     input.bind();
+    input.bindGamepad();
 
     let play = new Play({draw, 
                          input});

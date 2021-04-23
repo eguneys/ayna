@@ -1,2 +1,5 @@
-Template for Js13k.
+[ ] Enemies
+[ ] Shotgun
+[ ] Fit small places
+[ ] Down over solid
 
