@@ -12,6 +12,10 @@ export default class Dynamic {
     return this.entity.grounded;
   }
 
+  get wallGrounded(): boolean {
+    return this.walled(1) || this.walled(-1);
+  }
+
   walled(dir: Direction): boolean {
     return this.entity.walled(dir);
   }

@@ -11,6 +11,7 @@ import DCus from './dcus';
 import Jump from './jump';
 import RunDirection from './run';
 import SlideDirection from './slide';
+import Dash from './dash';
 
 export const maker: Maker = {
   hitbox: { x: 2, y: -2, w: 8, h: 8 },
@@ -34,6 +35,7 @@ export class Player extends DCus {
   runRight: RunDirection
   slideRight: SlideDirection
   slideLeft: SlideDirection
+  dash: Dash
   
   constructor(base: Objects,
               entity: Entity) {
@@ -46,18 +48,24 @@ export class Player extends DCus {
 
     this.slideRight = new SlideDirection(this.dynamic, 1, 8*0.8);
     this.slideLeft = new SlideDirection(this.dynamic, -1, 8*0.8);
+
+    this.dash = new Dash(this.dynamic);
     
   }
 
   update() {
     let xLeft = this.input.btn(InputKey.Left),
     xRight = this.input.btn(InputKey.Right),
-    yUp = this.input.btn(InputKey.X);
+    yUp = this.input.btn(InputKey.Up),
+    yDown = this.input.btn(InputKey.Down),
+    btnX = this.input.btn(InputKey.X),
+    btnC = this.input.btn(InputKey.C);
     
     if (xLeft > 0) {
+      this.dash.xRequest(-1);
       this.slideLeft.request();
       this.runLeft.request();
-      if (yUp > 0) {
+      if (btnX > 0) {
         this.slideRight.upRequest();
       }
     } else if (xLeft < 0) {
@@ -66,10 +74,11 @@ export class Player extends DCus {
     } else {
     }
     if (xRight > 0) {
+      this.dash.xRequest(1);
       this.slideRight.request();
       this.runRight.request();
 
-      if (yUp > 0) {
+      if (btnX > 0) {
         this.slideLeft.upRequest();
       }
       
@@ -79,18 +88,35 @@ export class Player extends DCus {
     } else {
     }
 
-    if (yUp > 0) {
-      if (yUp < t.sixth) {
+    if (btnX > 0) {
+      if (btnX < t.sixth) {
         this.slideLeft.upRequest();
         this.slideRight.upRequest();
       }
-      if (yUp < t.second) {
+      if (btnX < t.second) {
         this.jump.request();
       }
-    } else if (yUp < 0) {
+    } else if (btnX < 0) {
       // this.jump.request();
-    } else if (yUp === 0) {
+    } else if (btnX === 0) {
       this.jump.cutRequest();
+    }
+
+    if (btnC > 0) {
+      if (btnC < t.second) {
+        this.dash.request();
+      }
+    }
+
+    if (yUp > 0) {
+      this.dash.yRequest(-1);
+    } else if (yUp < 0) {
+    }
+
+    
+    if (yDown > 0) {
+      this.dash.yRequest(1);
+    } else if (yDown < 0) {
     }
 
     this.dynamic.dx = this.runLeft.dx + this.runRight.dx;
@@ -99,6 +125,7 @@ export class Player extends DCus {
     this.runRight.update();
     this.slideRight.update();
     this.slideLeft.update();
+    this.dash.update();
 
     super.update();
   }

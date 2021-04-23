@@ -1,4 +1,5 @@
 import * as t from '../ticks';
+import ease, { EasingFunc } from '../ease';
 
 export type HooksUpdate = (t: number, ticks?: t.Ticks) => void
 export type HooksBegin = () => void
@@ -13,6 +14,7 @@ export type Hooks = {
 export default class State {
 
   i: number
+  easing: EasingFunc
   ticks?: t.Ticks
   hooks: Hooks
 
@@ -24,10 +26,13 @@ export default class State {
     return this.i >= 0;
   }
   
-  constructor(hooks: Hooks, ticks?: t.Ticks) {
+  constructor(hooks: Hooks,
+              ticks?: t.Ticks,
+              _ease?: EasingFunc) {
     this.i = -1;
     this.ticks = ticks;
     this.hooks = hooks;
+    this.easing = _ease || ease.linear;
   }
 
   begin(ticks?: t.Ticks) {
@@ -54,7 +59,7 @@ export default class State {
       this.i++;
 
       let t = this.i/(this.ticks || 1);
-      this.hooks.update?.(t, this.ticks||this.i);
+      this.hooks.update?.(this.easing(t), this.ticks||this.i);
 
       if (this.ticks && this.i >= this.ticks) {
         this.end();

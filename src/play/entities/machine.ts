@@ -1,4 +1,5 @@
 import * as t from '../ticks';
+import { EasingFunc } from '../ease';
 
 import State,
 { Hooks,
@@ -11,7 +12,8 @@ export type StateRefKey = string
 export type StateRef = {
   hooks: Hooks,
   next?: StateRefKey,
-  ticks?: number
+  ticks?: number,
+  easing?: EasingFunc
 }
 
 export type StateRefMap = {
@@ -54,7 +56,7 @@ export default class Machine {
       begin: this.makeBegin(hooks.begin),
       update: this.makeUpdate(hooks.update),
       end: this.makeEnd(hooks.end, ref.next)
-    }, ref.ticks);
+    }, ref.ticks, ref.easing);
   }
 
   makeBegin(begin?: HooksBegin) {

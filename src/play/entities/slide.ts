@@ -154,11 +154,6 @@ export default class SlideDirection {
   }
 
   update() {
-    if (this.direction === -1) {
-      if (this.machine.current === 'rest') {
-        console.log(this.machine.current);
-      }
-    }
     this.machine.update();
   }
   

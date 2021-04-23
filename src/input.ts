@@ -93,6 +93,9 @@ export default class Input {
         case 'KeyX':
           this.up(InputKey.X);
           break;
+        case 'KeyC':
+          this.up(InputKey.C);
+          break;
       }
     });
 
@@ -112,6 +115,9 @@ export default class Input {
           break;
         case 'KeyX':
           this.down(InputKey.X);
+          break;
+        case 'KeyC':
+          this.down(InputKey.C);
           break;
       }
     });
@@ -158,6 +164,11 @@ export default class Input {
         this.downGamepad(InputKey.X)
       } else {
         this.upGamepad(InputKey.X);
+      }
+      if (gamepad.buttons[0].pressed) {
+        this.downGamepad(InputKey.C)
+      } else {
+        this.upGamepad(InputKey.C);
       }
     }
 

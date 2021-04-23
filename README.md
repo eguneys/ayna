@@ -1,3 +1,7 @@
+- Exploration
+
+
+
 [ ] Objective
 [ ] Enemies
 [ ] Shotgun

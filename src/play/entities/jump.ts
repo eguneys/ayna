@@ -1,6 +1,7 @@
 import Dynamic from './dynamic';
 import * as t from '../ticks';
 import Machine from './machine';
+import ease from '../ease';
 
 export default class Jump {
 
@@ -23,8 +24,10 @@ export default class Jump {
     return 2 * this.maxHeight / accelTicks;
   }
 
+  gravityTicks = t.fifth
+
   get fallVMax(): number {
-    return this.maxHeight / t.third;
+    return this.maxHeight / this.gravityTicks;
   }
 
   get groundedGrace() {
@@ -68,7 +71,7 @@ export default class Jump {
           update: this.landAccelUpdate.bind(this),
         },
         next: 'gravity',
-        ticks: t.lengths
+        ticks: t.oneth
       },
       rest: {
         hooks: {
@@ -106,11 +109,13 @@ export default class Jump {
     }
   }
 
-  gravityUpdate() {
+  gravityUpdate(i: number) {
     if (this.dynamic.grounded) {
       this.machine.transition('rest');
     } else {
-      this.dynamic.dy = this.fallVMax;
+      let _t = Math.min(i, this.gravityTicks)/this.gravityTicks;
+      this.dynamic.dy =
+        ease.easeOutCubic(_t) * this.fallVMax;
     }
   }
   
