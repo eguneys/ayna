@@ -1,3 +1,4 @@
+import { Direction } from '../direction';
 import Grid from '../grid';
 import Entity from './entity';
 
@@ -9,6 +10,10 @@ export default class Dynamic {
 
   get grounded(): boolean {
     return this.entity.grounded;
+  }
+
+  walled(dir: Direction): boolean {
+    return this.entity.walled(dir);
   }
   
   readonly entity: Entity;

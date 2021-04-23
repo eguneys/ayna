@@ -9,6 +9,7 @@ import Objects from '../objects';
 import DCus from './dcus';
 import Jump from './jump';
 import RunDirection from './run';
+import SlideDirection from './slide';
 
 export const maker: Maker = {
   hitbox: { x: 2, y: -2, w: 8, h: 8 },
@@ -30,6 +31,8 @@ export class Player extends DCus {
   jump: Jump
   runLeft: RunDirection
   runRight: RunDirection
+  slideRight: SlideDirection
+  slideLeft: SlideDirection
   
   constructor(base: Objects,
               entity: Entity) {
@@ -39,6 +42,9 @@ export class Player extends DCus {
     this.runLeft = new RunDirection(-1);
     this.runRight = new RunDirection(1);
     this.jump = new Jump(this.dynamic, 8 * 4);
+
+    this.slideRight = new SlideDirection(this.dynamic, 1, 8*0.8);
+    this.slideLeft = new SlideDirection(this.dynamic, -1, 8*0.8);
     
   }
 
@@ -46,23 +52,32 @@ export class Player extends DCus {
     let xLeft = this.input.btn(InputKey.Left),
     xRight = this.input.btn(InputKey.Right);
     if (xLeft > 0) {
+      this.slideLeft.request();
+      this.slideRight.upRequest();
       this.runLeft.request();
     } else if (xLeft < 0) {
+      this.slideLeft.cool();
       this.runLeft.cool();
     } else {
     }
     if (xRight > 0) {
+      this.slideRight.request();
+      this.slideLeft.upRequest();
       this.runRight.request();
     } else if (xRight < 0) {
+      this.slideRight.cool();
       this.runRight.cool();
     } else {
     }
 
     let yUp = this.input.btn(InputKey.Up);
-    if (yUp > 0) {
+    if (yUp === 2) {
       this.jump.request();
+      this.slideLeft.upRequest();
+      this.slideRight.upRequest();
+    } else if (yUp > 0) {
     } else if (yUp < 0) {
-      this.jump.request();
+      // this.jump.request();
     } else if (yUp === 0) {
       this.jump.cutRequest();
     }
@@ -71,6 +86,8 @@ export class Player extends DCus {
     this.jump.update();
     this.runLeft.update();
     this.runRight.update();
+    this.slideRight.update();
+    this.slideLeft.update();
 
     super.update();
   }

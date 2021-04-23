@@ -23,6 +23,10 @@ export default class Jump {
     return 2 * this.maxHeight / accelTicks;
   }
 
+  get fallVMax(): number {
+    return this.maxHeight / t.third;
+  }
+
   get groundedGrace() {
     return this.dynamic.grounded;
   }
@@ -49,14 +53,14 @@ export default class Jump {
           update: this.liftDeccelUpdate.bind(this)
         },
         next: 'liftHang',
-        ticks: t.third
+        ticks: t.half
       },
       liftHang: {
         hooks: {
           begin: this.liftHangBegin.bind(this)
         },
         next: 'landAccel',
-        ticks: 5
+        ticks: t.lengths
       },
       landAccel: {
         hooks: {
@@ -64,7 +68,7 @@ export default class Jump {
           update: this.landAccelUpdate.bind(this),
         },
         next: 'gravity',
-        ticks: t.sixth
+        ticks: t.lengths
       },
       rest: {
         hooks: {
@@ -75,7 +79,7 @@ export default class Jump {
       coyote: {
         hooks: {
         },
-        ticks: 5,
+        ticks: t.lengths,
         next: 'gravity'
       },
       gravity: {
@@ -105,6 +109,8 @@ export default class Jump {
   gravityUpdate() {
     if (this.dynamic.grounded) {
       this.machine.transition('rest');
+    } else {
+      this.dynamic.dy = this.fallVMax;
     }
   }
   
@@ -118,7 +124,7 @@ export default class Jump {
   landAccelBegin() {}
   
   gravityBegin() {
-    this.dynamic.dy = this.landVMax * 0.5;
+    //this.dynamic.dy = this.landVMax * 0.5;
   }
   
   restBegin() {
@@ -138,7 +144,11 @@ export default class Jump {
   }
 
   landAccelUpdate(i: number) {
-    this.dynamic.dy = i * this.landVMax;
+    if (this.dynamic.grounded) {
+      this.machine.transition('rest');
+    }
+    //this.dynamic.dy = i * this.landVMax;
+    this.dynamic.dy = 0;
   }
 
   update() {

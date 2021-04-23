@@ -6,20 +6,20 @@ let level = `
 
 
 
-
-
-
-
-
-
-
-
-
-        SSSS
-
-SSSSS   
-S     SSSS
-S             S     @    S
+                 S  S
+                 S  S
+                 S  S
+                 S  S
+                 S  S
+                 S  S
+                 S  S
+                 S  S     S
+                 S  S     S
+        SSSS     S  S     S
+                 S  S     SSS
+SSSSS            S  S     S            S
+S     SSSS                S            S
+S             S      @    S            S
 SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS`;
 
 export default class Play extends Cus {

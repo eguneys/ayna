@@ -1,3 +1,4 @@
+import { Direction } from '../direction';
 import Grid from '../grid';
 import Draw from '../../draw';
 import { Rect } from '../rect';
@@ -30,6 +31,13 @@ export default class Entity {
     this.y += 1;
     let res = this.grid.collide(this.ahitbox);
     this.y -= 1;
+    return res;
+  }
+
+  walled(dir: Direction) {
+    this.x += dir;
+    let res = this.grid.collide(this.ahitbox);
+    this.x -= dir;
     return res;
   }
   

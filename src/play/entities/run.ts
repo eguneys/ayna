@@ -1,6 +1,7 @@
 import Dynamic from './dynamic';
 import * as t from '../ticks';
 import State from './state';
+import { Direction } from '../direction';
 
 export default class RunDirection {
 
@@ -21,11 +22,11 @@ export default class RunDirection {
     return 2 * this.maxAccelX / this.Accel.safeTicks;
   }
 
-  direction: number
+  direction: Direction
 
   dx: number
   
-  constructor(direction: number) {
+  constructor(direction: Direction) {
     this.direction = direction;
 
     this.dx = 0;

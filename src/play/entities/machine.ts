@@ -43,6 +43,8 @@ export default class Machine {
     let res = this.states.get(key);
     if (res) {
       return op(res);
+    } else {
+      console.warn('no state ', key);
     }
   }
   
