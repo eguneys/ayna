@@ -1,7 +1,7 @@
 import { Context, Cus } from '../../context';
 import Entity from './entity';
 import Dynamic from './dynamic';
-import Objects from '../objects';
+import Room from '../room';
 
 export default abstract class DCus extends Cus {
   dynamic: Dynamic
@@ -34,7 +34,7 @@ export default abstract class DCus extends Cus {
     return this.entity.grounded;
   }
 
-  constructor(base: Objects,
+  constructor(base: Room,
               dynamic: Dynamic) {
     super(base.context);
 

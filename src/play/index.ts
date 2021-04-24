@@ -1,46 +1,23 @@
 import { Context, Cus } from '../context';
-import Objects from './objects';
-
-let level = `
-
-
-
-
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S     S
-                 S  S     S
-        SSSS     S  S     S
-                 S  S     SSS
-SSSSS            S  S     S            S
-S     SSSS                S            S
-S             S      @    S            S
-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS`;
+import Rooms from './rooms';
 
 export default class Play extends Cus {
 
-  objects: Objects
+  rooms: Rooms
   
   constructor(context: Context) {
     super(context);
-    this.objects = new Objects(context, level);
+
+    this.rooms = new Rooms(context);
+    
   }
 
   update() {
-    this.objects.update();
+    this.rooms.update();
   }
 
   render() {
-
-    this.draw.cls();
-
-    this.objects.render();
-    
+    this.rooms.render();
   }
   
 }

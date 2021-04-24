@@ -6,7 +6,7 @@ import Entity from './entity';
 import Dynamic from './dynamic';
 import * as t from '../ticks';
 import { Rect } from '../rect';
-import Objects from '../objects';
+import Room from '../room';
 import DCus from './dcus';
 import Jump from './jump';
 import RunDirection from './run';
@@ -17,7 +17,7 @@ export const maker: Maker = {
   hitbox: { x: 2, y: -2, w: 8, h: 8 },
   dim: { x: 0, y: 0, w: 12, h: 12 },
   char: PlayerChar,
-  apply(base: Objects, i: number, j: number) {
+  apply(base: Room, i: number, j: number) {
 
     let entity = new Entity(base.grid,
                             this.dim,
@@ -37,7 +37,7 @@ export class Player extends DCus {
   slideLeft: SlideDirection
   dash: Dash
   
-  constructor(base: Objects,
+  constructor(base: Room,
               entity: Entity) {
     super(base,
           new Dynamic(entity));

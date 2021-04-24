@@ -4,7 +4,7 @@ import { Level, callChar } from './level';
 import * as cs from './chars';
 import entities from './entities';
 
-export default class Objects extends Cus {
+export default class Room extends Cus {
 
   grid: Grid
   objects: Array<Cus>

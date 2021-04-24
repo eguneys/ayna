@@ -15,6 +15,11 @@ export default class Draw {
     this.ctx.clearRect(0, 0, 320, 160);
   }
 
+  camera(x: number = 0, y: number = 0) {
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.translate(x, y);
+  }
+
   style(style: string) {
     this.ctx.fillStyle = style;
   }

@@ -1,10 +1,10 @@
 import { Context, Cus } from '../../context';
 import { Rect } from '../rect';
-import Objects from '../objects';
+import Room from '../room';
 
 export type Maker = {
   hitbox: Rect,
   dim: Rect,
   char: string,
-  apply: (objects: Objects, i: number, j: number) => Cus
+  apply: (room: Room, i: number, j: number) => Cus
 }
