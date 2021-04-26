@@ -16,6 +16,8 @@ export default class Draw {
   }
 
   camera(x: number = 0, y: number = 0) {
+    x = Math.floor(x);
+    y = Math.floor(y);
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.translate(x, y);
   }
@@ -30,6 +32,8 @@ export default class Draw {
 
   stroke(x: number, y: number,
          w: number, h: number) {
+    x = Math.floor(x);
+    y = Math.floor(y);
     this.ctx.strokeRect(x, y, w, h);
   }
   
@@ -42,6 +46,9 @@ export default class Draw {
     sWidth: number, sHeight: number,
     dx: number, dy: number,
     dWidth: number, dHeight: number) {
+
+    dx = Math.floor(dx);
+    dy = Math.floor(dy);
     
     this.ctx.drawImage(this.image, 
                        sx, sy,

@@ -125,10 +125,17 @@ export default class Rect {
     return this.move(x, y);
   }
 
-  approach(x: number, y: number, ease: number = 0.5) {
-    x = this.x + (x - this.x) * ease;
-    y = this.y + (y - this.y) * ease;
-    return this.move(x, y);
+  approach(pos: Point, ease: number, maxDist: number) {
+
+    let move = pos
+      .sub(this.xy)
+      .scale(ease);
+
+    if (move.length > maxDist) {
+      move = move.normalize.scale(maxDist);
+    }
+    
+    return this.translate(move.x, move.y);
   }
   
   move(x: number, y: number) {

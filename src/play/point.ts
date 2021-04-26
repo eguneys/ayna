@@ -22,6 +22,14 @@ export default class Point {
   get half(): Point {
     return this.scale(0.5);
   }
+
+  get length(): number {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
+  get normalize(): Point {
+    return this.scale(1/this.length);
+  }
   
   constructor(x: number, y: number) {
     this.x = x;
