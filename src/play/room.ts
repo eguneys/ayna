@@ -1,40 +1,52 @@
 import { Context, Cus } from '../context';
+import Point from './point';
 import Grid from './grid';
-import { Level, callChar } from './level';
 import * as cs from './chars';
+import * as bs from './bounds';
 import entities from './entities';
+import { SolidChar, PlayerChar } from './chars';
+import { RoomDef } from './editor';
+import { room } from './load';
 
 export default class Room extends Cus {
 
   grid: Grid
-  objects: Array<Cus>
+  checkpoints: Array<Point>
   
-  constructor(context: Context, level: Level) {
+  constructor(context: Context) {
     super(context);
-    
-    this.grid = new Grid(8, 8, level);
 
-    this.objects = [];
-    
-    let cc = callChar(level);
+    this.grid = new Grid(bs.Tile, bs.Tile);
+    this.checkpoints = [];
+  }
 
-    for (let maker of entities) {
-      cc(maker.char, (i, j) => {
-        let entity = maker.apply(this, i * 8, j * 8);
+  load(rd: RoomDef) {
 
-        this.objects.push(entity);
-      });
-    }
+    let cc = room(rd);
+
+    cc(SolidChar).forEach((p) => {
+      this.grid.get(p.i, p.j, true);
+    });
+
+    cc(PlayerChar).forEach(p => {
+      this.checkpoints.push(p.mul(bs.TileSize));
+    });
+
+    // for (let maker of entities) {
+    //   cc(maker.char).forEach(([i, j]) => {
+    //     let entity = maker.apply(this, i * 8, j * 8);
+
+    //     this.objects.push(entity);
+    //   });
+    // }
 
   }
 
   update() {
-    this.objects.forEach(_ => _.update());
   }
 
   render() {
     this.grid.render(this.draw);
-    this.objects.forEach(_ => _.render());
   }
   
 }

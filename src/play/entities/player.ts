@@ -4,42 +4,57 @@ import { Maker } from './maker';
 import { PlayerChar } from '../chars';
 import Entity from './entity';
 import Dynamic from './dynamic';
+import { CollideCheck } from './collide';
 import * as t from '../ticks';
-import { Rect } from '../rect';
+import * as bs from '../bounds';
+import Point from '../point';
+import Rect from '../rect';
 import Room from '../room';
+import Rooms from '../rooms';
 import DCus from './dcus';
 import Jump from './jump';
 import RunDirection from './run';
 import SlideDirection from './slide';
 import Dash from './dash';
 
-export const maker: Maker = {
-  hitbox: { x: 2, y: -2, w: 8, h: 8 },
-  dim: { x: 0, y: 0, w: 12, h: 12 },
-  char: PlayerChar,
-  apply(base: Room, i: number, j: number) {
+export default class Player extends DCus {
 
-    let entity = new Entity(base.grid,
-                            this.dim,
-                            this.hitbox,
-                            i, j);
+  static maker: Maker<Player> = {
+    hitbox: Rect.make({ x: 2, y: -2, w: 8, h: 8 }),
+    dim: Rect.make({ x: 0, y: 0, w: 12, h: 12 }),
+    char: PlayerChar,
+    apply(context: Context,
+          collide: CollideCheck,
+          i: number, j: number) {
 
-    return new Player(base, entity);
+      let entity = new Entity(collide,
+                              this.dim,
+                              this.hitbox,
+                              i, j);
+
+      return new Player(context, entity);
+    }
   }
-}
-
-export class Player extends DCus {
-
+  
   jump: Jump
   runLeft: RunDirection
   runRight: RunDirection
   slideRight: SlideDirection
   slideLeft: SlideDirection
   dash: Dash
+  pause: boolean = false
   
-  constructor(base: Room,
+  get target(): Point {
+    return this.entity.ahitbox.xy.sub(bs.HalfScreenSize);
+  }
+
+  get origin(): Point {
+    return this.entity.ahitbox.origin;
+  }
+  
+  constructor(context: Context,
               entity: Entity) {
-    super(base,
+    super(context,
           new Dynamic(entity));
 
     this.runLeft = new RunDirection(-1);
@@ -54,6 +69,7 @@ export class Player extends DCus {
   }
 
   update() {
+
     let xLeft = this.input.btn(InputKey.Left),
     xRight = this.input.btn(InputKey.Right),
     yUp = this.input.btn(InputKey.Up),
@@ -127,7 +143,10 @@ export class Player extends DCus {
     this.slideLeft.update();
     this.dash.update();
 
-    super.update();
+    if (this.pause) {
+    } else {
+      super.update();
+    }
   }
 
   render() {

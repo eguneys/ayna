@@ -1,12 +1,11 @@
 import { Direction } from '../direction';
 import Grid from '../grid';
+import Rect from '../rect';
+import Rooms from '../rooms';
 import Entity from './entity';
+import { CollideCheck, noCollision } from './collide';
 
 export default class Dynamic {
-
-  get grid(): Grid {
-    return this.entity.grid;
-  };
 
   get grounded(): boolean {
     return this.entity.grounded;
@@ -25,6 +24,10 @@ export default class Dynamic {
   remy: number = 0
   dx: number = 0
   dy: number = 0
+
+  get collide(): CollideCheck {
+    return this.entity.collide;
+  }
   
   constructor(entity: Entity) {
     this.entity = entity;
@@ -46,7 +49,7 @@ export default class Dynamic {
     let step = Math.sign(amount);
     for (let i = 0; i < Math.abs(amount); i++) {
       this.entity.moveX(step);
-      if (this.grid.collide(this.entity.ahitbox)) {
+      if (this.collide(this.entity.ahitbox)) {
         this.dx = 0;
         this.entity.moveX(step * - 1);
         return;
@@ -58,7 +61,7 @@ export default class Dynamic {
     let step = Math.sign(amount);
     for (let i = 0; i < Math.abs(amount); i++) {
       this.entity.moveY(step);
-      if (this.grid.collide(this.entity.ahitbox)) {
+      if (this.collide(this.entity.ahitbox)) {
         this.dy = 0;
         this.entity.moveY(step * - 1);
         return;

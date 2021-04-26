@@ -1,5 +1,6 @@
 import { Context, Cus } from '../context';
 import Rooms from './rooms';
+import { home } from './editor';
 
 export default class Play extends Cus {
 
@@ -9,10 +10,15 @@ export default class Play extends Cus {
     super(context);
 
     this.rooms = new Rooms(context);
+
+    this.rooms.load(home.level, home.chars);
     
   }
 
   update() {
+    this.draw.camera();
+    this.draw.cls();
+    
     this.rooms.update();
   }
 

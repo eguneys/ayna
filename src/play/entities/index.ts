@@ -1,5 +1,7 @@
-import { maker as p } from './player'
+import DCus from './dcus';
+import { Maker } from './maker';
 
-export default [
-  p
+const maker: Array<Maker<DCus>> = [
 ];
+
+export default maker;

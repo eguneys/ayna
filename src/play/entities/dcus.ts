@@ -1,7 +1,6 @@
 import { Context, Cus } from '../../context';
 import Entity from './entity';
 import Dynamic from './dynamic';
-import Room from '../room';
 
 export default abstract class DCus extends Cus {
   dynamic: Dynamic
@@ -22,21 +21,21 @@ export default abstract class DCus extends Cus {
     this.dynamic.dy = v;
   }
   
-  get grid() {
-    return this.dynamic.grid;
-  }
-  
   get entity() {
     return this.dynamic.entity;
+  }
+
+  get ahitbox() {
+    return this.entity.ahitbox;
   }
 
   get grounded() {
     return this.entity.grounded;
   }
 
-  constructor(base: Room,
+  constructor(context: Context,
               dynamic: Dynamic) {
-    super(base.context);
+    super(context);
 
     this.dynamic = dynamic;
   }

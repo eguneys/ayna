@@ -1,53 +1,43 @@
 import { Direction } from '../direction';
-import Grid from '../grid';
 import Draw from '../../draw';
-import { Rect } from '../rect';
+import Rect from '../rect';
+import { CollideCheck, noCollision } from './collide';
 
 export default class Entity {
 
-  readonly grid: Grid
+  readonly collide: CollideCheck
   readonly dim: Rect
   readonly hitbox: Rect
+
   get ahitbox() {
-    return {
-      x: this.hitbox.x + this.x,
-      y: this.hitbox.y + this.y,
-      w: this.hitbox.w,
-      h: this.hitbox.h
-    };
+    return this.hitbox.translate(this.x, this.y);
   }
   get adim() {
-    return {
-      x: this.dim.x + this.x,
-      y: this.dim.y + this.y,
-      w: this.dim.w,
-      h: this.dim.h
-    };
+    return this.dim.translate(this.x, this.y);
   }
   x: number
   y: number
 
   get grounded() {
     this.y += 1;
-    let res = this.grid.collide(this.ahitbox);
+    let res = this.collide(this.ahitbox);
     this.y -= 1;
     return res;
   }
 
   walled(dir: Direction) {
     this.x += dir * 3;
-    let res = this.grid.collide(this.ahitbox);
+    let res = this.collide(this.ahitbox);
     this.x -= dir * 3;
     return res;
   }
   
-  constructor(grid: Grid,
+  constructor(collide: CollideCheck,
               dim: Rect,
               hitbox: Rect,
               x: number,
               y: number) {
-
-    this.grid = grid;
+    this.collide = collide;
     this.dim = dim;
     this.hitbox = hitbox;
     this.x = x;
