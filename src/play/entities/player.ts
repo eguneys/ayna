@@ -167,6 +167,6 @@ export default class Player extends DCus {
 
   render() {
     this.dynamic.render(this.draw);
-    this.entity.debug(this.draw)
+    // this.entity.debug(this.draw)
   }
 }

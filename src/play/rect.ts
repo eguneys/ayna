@@ -23,6 +23,8 @@ function def2Key({x,y,w,h}: RectDef) {
 
 export default class Rect {
 
+  static zero: Rect = new Rect(0, 0, 0, 0);
+  
   static fromPoints = (points: Array<Point>): Rect => {
     points.sort((p1, p2) => {
       return (p1.x - p2.x) === 0 ? (p1.y - p2.y) : (p1.x - p2.x);
@@ -122,6 +124,13 @@ export default class Rect {
     return new Rect(x, y, _w, _h);
   }
 
+  add(r: Rect) {
+    return new Rect(this.x + r.x,
+                    this.y + r.y,
+                    this.w + r.w,
+                    this.h + r.h);
+  }
+
   intersect(r: Rect) {
     return !(r.left > this.right ||
       r.right < this.left ||
@@ -167,10 +176,27 @@ export default class Rect {
   }
 
   expand(w: number, h: number) {
+    if (h === 0 && w === 0) {
+      return this;
+    }
     return new Rect(this.x,
                     this.y,
                     this.w + w,
                     this.h + h);
+  }
+
+  expandCentered(w: number, h: number) {
+    if (h === 0 && w === 0) {
+      return this;
+    }
+    return new Rect(this.x - w / 2,
+                    this.y - h / 2,
+                    this.w + w,
+                    this.h + h);
+  }
+
+  expandM(w: number, h: number) {
+    return this.expandCentered(this.w * w - this.w, this.h * h - this.h);
   }
 
   equal(def: RectDef) {

@@ -1,3 +1,4 @@
+import * as bs from '../bounds';
 import * as t from '../ticks';
 import Dynamic from './dynamic';
 import Machine from './machine';
@@ -9,6 +10,8 @@ import Rect from '../rect';
 
 export default class Dash {
 
+  static distance: number = bs.Tile * 8;
+  
   dynamic: Dynamic
   xDirection: Direction
   yDirection: Direction
@@ -20,13 +23,13 @@ export default class Dash {
   
   maxDJump: number = 1;
   dJump: number = this.maxDJump;
-
+  
   get maxDashV() {
     let dashTicks = this.machine
       .maybeState('dash',
                   _ => _.safeTicks)!;
 
-    return 2 * 32 / dashTicks;
+    return 2 * Dash.distance / dashTicks;
   }
   
   constructor(dynamic: Dynamic) {

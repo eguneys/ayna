@@ -17,7 +17,6 @@ export function level(level: LevelDef, chars: RoomsCharMap<RoomDef>) {
       }
     }
   });
-
   let res: Array<[RoomDef, Rect]> = [];
   for (let char in pMap) {
     let rd = chars[char];

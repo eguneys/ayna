@@ -5,9 +5,12 @@ import ease from '../ease';
 import PSfi from './psfi';
 import * as sf from './sprites';
 import Rect from '../rect';
+import Point from '../point';
 
 export default class Jump {
 
+  static liftDimExpand = Point.make(0.6, 1.4);
+  
   machine: Machine
   
   maxHeight: number
@@ -40,7 +43,7 @@ export default class Jump {
   get groundedGrace() {
     return this.dynamic.grounded;
   }
-  
+
   dynamic: Dynamic
   
   constructor(dynamic: Dynamic, maxHeight: number) {
@@ -123,6 +126,8 @@ export default class Jump {
       let _t = Math.min(i, this.gravityTicks)/this.gravityTicks;
       this.dynamic.dy =
         ease.easeOutCubic(_t) * this.fallVMax;
+
+      this.dynamic.entity.dimExpand = this.dynamic.entity.dimExpand.ipol(i % t.second / t.second, Point.one);
     }
   }
   
@@ -144,6 +149,7 @@ export default class Jump {
   restBegin() {
     this.dynamic.dy = 0;
     this.psfi.sfi = undefined;
+    this.dynamic.entity.dimExpand = Point.one;
   }
 
   liftHangBegin() {
@@ -152,6 +158,8 @@ export default class Jump {
 
   liftDeccelUpdate(i: number) {
     this.dynamic.dy = (i-1) * this.vMax;
+
+    this.dynamic.entity.dimExpand = Point.one.ipol(Math.min(1, (i + 0.5)), Jump.liftDimExpand);
   }
   
   liftAccelUpdate(i: number) {
@@ -162,7 +170,6 @@ export default class Jump {
     if (this.dynamic.grounded) {
       this.machine.transition('rest');
     }
-    //this.dynamic.dy = i * this.landVMax;
     this.dynamic.dy = 0;
   }
 

@@ -7,7 +7,32 @@ export function requal(a: Rect, b: RectDef) {
   }
 }
 
-export default function test() {
+export default function() {
+  expand();
+}
+
+export function expand() {
+  let r = Rect.make({
+    x: 0, y: 0, w: 10, h: 10
+  });
+
+  requal(r.expandM(2, 2), {
+    x: -5,
+    y: -5,
+    w: 20,
+    h: 20
+  })
+
+  requal(r.expandM(1, 1), {
+    x: 0, y: 0, w: 10, h: 10
+  });
+
+  requal(r.expandM(0, 0), {
+    x: 5, y: 5, w: 0, h: 0
+  });  
+}
+
+export function lock() {
 
   
   let lock = Rect.make({

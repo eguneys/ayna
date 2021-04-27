@@ -1,8 +1,11 @@
+import  i from './i';
+
 export type PointKey = string;
 
 export default class Point {
 
   static zero = new Point(0, 0);
+  static one = new Point(1, 1);
   
   static make = (x: number, y: number): Point => {
     return new Point(x, y);
@@ -55,5 +58,12 @@ export default class Point {
     return new Point(p.x * this.x,
                      p.y * this.y);
   }
+
+  ipol(_i: number, to: Point) {
+    return new Point(
+      i(_i, this.x, to.x),
+      i(_i, this.y, to.y)
+    );
+  }  
   
 }

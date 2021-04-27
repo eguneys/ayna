@@ -11,6 +11,8 @@ export default class Entity {
   readonly hitbox: Rect
   sfi?: [Rect, Point]
 
+  dimExpand: Point = Point.make(1, 1);
+  
   get sf() {
     return this.sfi?.[0];
   }
@@ -23,7 +25,8 @@ export default class Entity {
     return this.hitbox.translate(this.x, this.y);
   }
   get adim() {
-    return this.dim.translate(this.x, this.y);
+    return this.dim.translate(this.x, this.y)
+      .expandM(this.dimExpand.x, this.dimExpand.y);
   }
   x: number
   y: number
