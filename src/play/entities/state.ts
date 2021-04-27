@@ -43,8 +43,8 @@ export default class State {
 
   cut(onCut?: () => void) {
     if (this.i >= 0) {
-      this.i = -1;
       onCut?.();
+      this.end();
     }
   }
 

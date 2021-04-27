@@ -142,7 +142,13 @@ export default class Player extends DCus {
 
     this.psfi.si = this.restI++ % t.half / t.half;
     
-    this.entity.sfi = this.runLeft.sfi || this.runRight.sfi ||
+    this.entity.sfi =
+      this.dash.sfi ||
+      this.slideLeft.sfi ||
+      this.slideRight.sfi ||
+      this.jump.sfi ||
+      this.runLeft.sfi ||
+      this.runRight.sfi ||
       this.psfi.sfi;
 
     this.dynamic.dx = this.runLeft.dx + this.runRight.dx;

@@ -2,12 +2,19 @@ import * as t from '../ticks';
 import Dynamic from './dynamic';
 import Machine from './machine';
 import { Direction } from '../direction';
+import PSfi from './psfi';
+import * as sf from './sprites';
+import Rect from '../rect';
 
 export default class SlideDirection {
 
   dynamic: Dynamic
   direction: Direction
   machine: Machine
+
+  psfi: PSfi = new PSfi();
+
+  get sfi() { return this.psfi.sfi }
 
   get liftVMax(): number {
     let liftAccelTicks = this.machine
@@ -34,6 +41,8 @@ export default class SlideDirection {
     this.machine = new Machine({
       liftAccelXY: {
         hooks: {
+          begin: this.liftAccelBegin.bind(this),
+          end: this.liftAccelEnd.bind(this),
           update: this.liftAccelXYUpdate.bind(this)
         },
         ticks: t.third,
@@ -48,16 +57,22 @@ export default class SlideDirection {
       },
       stick: {
         hooks: {
+          end: this.stickEnd.bind(this),
+          begin: this.stickBegin.bind(this),
           update: this.stickUpdate.bind(this)
         }
       },
       stickLift: {
         hooks: {
+          begin: this.stickBegin.bind(this),
+          end: this.stickEnd.bind(this),
           update: this.stickLiftUpdate.bind(this)
         },
       },
       quickStickThenRest: {
         hooks: {
+          begin: this.stickBegin.bind(this),
+          end: this.stickEnd.bind(this),
           update: this.quickStickThenRestUpdate.bind(this)
         },
         ticks: t.half,
@@ -107,6 +122,23 @@ export default class SlideDirection {
       this.machine.current === 'stickLift') {
       this.machine.transition('rest');
     }
+  }
+
+  stickBegin() {
+    this.psfi.sf = Rect.make(sf.player.stick);
+  }
+
+
+  stickEnd() {
+    this.psfi.sfi = undefined;
+  }
+
+  liftAccelBegin() {
+    this.psfi.sf = Rect.make(sf.player.wlift);
+  }
+
+  liftAccelEnd() {
+    this.psfi.sfi = undefined;
   }
 
   liftAccelXYUpdate(i: number) {

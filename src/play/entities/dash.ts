@@ -3,6 +3,9 @@ import Dynamic from './dynamic';
 import Machine from './machine';
 import { Direction } from '../direction';
 import ease from '../ease';
+import PSfi from './psfi';
+import * as sf from './sprites';
+import Rect from '../rect';
 
 export default class Dash {
 
@@ -11,6 +14,10 @@ export default class Dash {
   yDirection: Direction
   machine: Machine
 
+  psfi: PSfi = new PSfi();
+  get sfi() { return this.psfi.sfi };
+
+  
   maxDJump: number = 1;
   dJump: number = this.maxDJump;
 
@@ -82,6 +89,8 @@ export default class Dash {
   restBegin() {
     this.xDirection = 0;
     this.yDirection = 0;
+
+    this.psfi.sfi = undefined;
   }
 
   restUpdate() {
@@ -92,6 +101,7 @@ export default class Dash {
 
   dashBegin() {
     this.dJump--;
+    this.psfi.sf = Rect.make(sf.player.dash);
   }
 
   dashInputUpdate(i: number) {

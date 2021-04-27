@@ -21,8 +21,10 @@ export default class PSfi {
     }
   }
 
-  constructor(sf: Rect) {
-    this.sf = sf;
+  constructor(sf?: Rect) {
+    if (sf) {
+      this.sf = sf;
+    }
   }
   
 

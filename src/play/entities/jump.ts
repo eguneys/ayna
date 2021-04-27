@@ -2,12 +2,19 @@ import Dynamic from './dynamic';
 import * as t from '../ticks';
 import Machine from './machine';
 import ease from '../ease';
+import PSfi from './psfi';
+import * as sf from './sprites';
+import Rect from '../rect';
 
 export default class Jump {
 
   machine: Machine
   
   maxHeight: number
+
+  psfi: PSfi = new PSfi();
+
+  get sfi() { return this.psfi.sfi };
 
   get vMax(): number {
     let liftAccelTicks = this.machine
@@ -125,7 +132,9 @@ export default class Jump {
     }
   }
 
-  liftAccelBegin() {}
+  liftAccelBegin() {
+    this.psfi.sf = Rect.make(sf.player.jump);
+  }
   landAccelBegin() {}
   
   gravityBegin() {
@@ -134,6 +143,7 @@ export default class Jump {
   
   restBegin() {
     this.dynamic.dy = 0;
+    this.psfi.sfi = undefined;
   }
 
   liftHangBegin() {
