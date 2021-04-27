@@ -16,12 +16,14 @@ import Jump from './jump';
 import RunDirection from './run';
 import SlideDirection from './slide';
 import Dash from './dash';
+import PSfi from './psfi';
+import * as sf from './sprites';
 
 export default class Player extends DCus {
 
   static maker: Maker<Player> = {
-    hitbox: Rect.make({ x: 2, y: -2, w: 8, h: 8 }),
-    dim: Rect.make({ x: 0, y: 0, w: 12, h: 12 }),
+    hitbox: Rect.make({ x: 0, y: -5, w: 8, h: 12 }),
+    dim: Rect.make({ x: -3, y: -10, w: 13, h: 18 }),
     char: PlayerChar,
     apply(context: Context,
           collide: CollideCheck,
@@ -51,6 +53,9 @@ export default class Player extends DCus {
   get origin(): Point {
     return this.entity.ahitbox.origin;
   }
+
+  restI: number = 0;
+  psfi: PSfi = new PSfi(Rect.make(sf.player.rest));
   
   constructor(context: Context,
               entity: Entity) {
@@ -135,6 +140,11 @@ export default class Player extends DCus {
     } else if (yDown < 0) {
     }
 
+    this.psfi.si = this.restI++ % t.half / t.half;
+    
+    this.entity.sfi = this.runLeft.sfi || this.runRight.sfi ||
+      this.psfi.sfi;
+
     this.dynamic.dx = this.runLeft.dx + this.runRight.dx;
     this.jump.update();
     this.runLeft.update();
@@ -150,6 +160,7 @@ export default class Player extends DCus {
   }
 
   render() {
-    this.entity.render(this.draw);
+    this.dynamic.render(this.draw);
+    this.entity.debug(this.draw)
   }
 }

@@ -89,6 +89,20 @@ export default class Rect {
   get origin(): Point { return Point.make(this.x + this.w / 2,
                                           this.y + this.h / 2); }
 
+
+  get leftRect(): Rect {
+    return new Rect(this.x,
+                    this.y,
+                    this.w/2,
+                    this.h/2);
+  }
+
+  get rightRect(): Rect {
+    return this.leftRect
+      .translate(this.w/2,
+                 this.h/2);
+  }
+  
   constructor(x: number, y: number, w: number, h: number) {
     this.def = {
       x, y, w, h

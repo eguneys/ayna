@@ -7,7 +7,18 @@ export function log(msg: string, a: boolean, e: boolean) {
   }
 }
 
-export default function grid() {
+export default function() {
+  
+  let grid = new Grid(8, 8);
+
+  grid.get(2, 2, true);
+
+  let r = Rect.make({ x: 4, y: 16, w: 12, h: 8 });
+
+  log(r.key, grid.collide(r), true);
+}
+
+function samegrid() {
 
   let grid = new Grid(8, 8);
 

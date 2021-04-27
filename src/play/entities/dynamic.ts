@@ -1,4 +1,5 @@
 import { Direction } from '../direction';
+import Draw from '../../draw';
 import Grid from '../grid';
 import Rect from '../rect';
 import Rooms from '../rooms';
@@ -7,6 +8,10 @@ import { CollideCheck, noCollision } from './collide';
 
 export default class Dynamic {
 
+  get sf() {
+    return this.entity.sf;
+  }
+  
   get grounded(): boolean {
     return this.entity.grounded;
   }
@@ -27,6 +32,14 @@ export default class Dynamic {
 
   get collide(): CollideCheck {
     return this.entity.collide;
+  }
+
+  get facing(): Direction {
+    return Math.sign(this.dx) as Direction;
+  }
+
+  get facingLeft(): boolean {
+    return this.facing === -1;
   }
   
   constructor(entity: Entity) {
@@ -66,6 +79,22 @@ export default class Dynamic {
         this.entity.moveY(step * - 1);
         return;
       }
+    }
+  }
+
+  render(draw: Draw) {
+    if (this.entity.sf && this.entity.si) {
+      draw.s(this.entity.sf.x +
+        this.entity.si.x * this.entity.sf.w,
+             this.entity.sf.y +
+        this.entity.si.y * this.entity.sf.h,
+             this.entity.sf.w,
+             this.entity.sf.h,
+             this.entity.adim.x,
+             this.entity.adim.y,
+             this.entity.adim.w,
+             this.entity.adim.h,
+             this.facingLeft);
     }
   }
 }

@@ -28,19 +28,19 @@ export default class Grid {
   }
 
   collide(rect: Rect) {
-    let x = Math.floor(rect.x / this.cellW),
-    y = Math.floor(rect.y / this.cellH),
-    w = Math.floor(rect.w / this.cellW) + 1,
-    h = Math.floor(rect.h / this.cellH) + 1;
+    let l = Math.floor(rect.left / this.cellW),
+    t = Math.floor(rect.top / this.cellH),
+    r = Math.floor(rect.right / this.cellW),
+    b = Math.floor(rect.bottom / this.cellH);
 
-    return this.checkRect(x, y, w, h);
+    return this.checkRect(l, t, r, b);
   }
 
-  checkRect(x: number, y: number,
-            w: number, h: number) {
-    for (let i = 0; i < w; i++) {
-      for (let j = 0; j < h; j++) {
-        if (this.data.get(x + i, y + j)) {
+  checkRect(l: number, t: number,
+            r: number, b: number) {
+    for (let i = l; i <= r; i++) {
+      for (let j = t; j <= b; j++) {
+        if (this.data.get(i, j)) {
           return true;
         }
       }

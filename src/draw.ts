@@ -45,16 +45,26 @@ export default class Draw {
   s(sx: number, sy: number, 
     sWidth: number, sHeight: number,
     dx: number, dy: number,
-    dWidth: number, dHeight: number) {
+    dWidth: number, dHeight: number, flipx: boolean = false) {
 
     dx = Math.floor(dx);
     dy = Math.floor(dy);
+
+    this.ctx.save();
+    
+    if (flipx) {
+      this.ctx.scale(-1, 1);
+      dx *= -1;
+      dx -= dWidth;
+    }
     
     this.ctx.drawImage(this.image, 
                        sx, sy,
                        sWidth, sHeight,
                        dx, dy,
                        dWidth, dHeight);
+
+    this.ctx.restore();
   }
 
   

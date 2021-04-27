@@ -2,6 +2,8 @@ export type PointKey = string;
 
 export default class Point {
 
+  static zero = new Point(0, 0);
+  
   static make = (x: number, y: number): Point => {
     return new Point(x, y);
   }

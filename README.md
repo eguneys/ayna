@@ -1,10 +1,6 @@
-- Exploration
-
-
-
-[ ] Objective
-[ ] Enemies
-[ ] Shotgun
-[ ] Fit small places
-[ ] Down over solid
+- [ ] Exploration
+  - [ ] Camera Movement
+  - [ ] Objective
+  - [ ] Enemies
+  - [ ] Shotgun
 

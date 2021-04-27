@@ -1,4 +1,4 @@
-import imageOsi from '../assets/osi.png';
+import sprites8 from '../assets/sprites8.png';
 import { loadImage } from './loadImage';
 import { animate } from './animate';
 import Draw from './draw';
@@ -9,7 +9,7 @@ import Play from './play';
 
 export default function app(element: Element) {
 
-  loadImage(imageOsi).then((image: HTMLImageElement) => {
+  loadImage(sprites8).then((image: HTMLImageElement) => {
     let canvas = new Canvas(element);
     let draw = new Draw(canvas.ctx, image);
     let input = new Input();

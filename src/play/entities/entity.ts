@@ -1,5 +1,6 @@
 import { Direction } from '../direction';
 import Draw from '../../draw';
+import Point from '../point';
 import Rect from '../rect';
 import { CollideCheck, noCollision } from './collide';
 
@@ -8,6 +9,15 @@ export default class Entity {
   readonly collide: CollideCheck
   readonly dim: Rect
   readonly hitbox: Rect
+  sfi?: [Rect, Point]
+
+  get sf() {
+    return this.sfi?.[0];
+  }
+
+  get si() {
+    return this.sfi?.[1];
+  }
 
   get ahitbox() {
     return this.hitbox.translate(this.x, this.y);
@@ -31,6 +41,13 @@ export default class Entity {
     this.x -= dir * 3;
     return res;
   }
+
+  cliff(dir: Direction): boolean {
+    this.x += dir * this.hitbox.w/2;
+    let nextGrounded = this.grounded;
+    this.x -= dir * this.hitbox.w/2;
+    return this.grounded && !nextGrounded;
+  }
   
   constructor(collide: CollideCheck,
               dim: Rect,
@@ -53,6 +70,19 @@ export default class Entity {
   }
 
   render(draw: Draw) {
+    if (this.sf) {
+      draw.s(this.sf.x,
+             this.sf.y,
+             this.sf.w,
+             this.sf.h,
+             this.adim.x,
+             this.adim.y,
+             this.adim.w,
+             this.adim.h);
+    }
+  }
+  
+  debug(draw: Draw) {
     draw.strokeStyle('green');
     draw.stroke(this.ahitbox.x,
                 this.ahitbox.y,
