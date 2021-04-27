@@ -70,11 +70,9 @@ export default class Player extends DCus {
     this.slideLeft = new SlideDirection(this.dynamic, -1, 8*0.8);
 
     this.dash = new Dash(this.dynamic);
-    
   }
 
   update() {
-
     let xLeft = this.input.btn(InputKey.Left),
     xRight = this.input.btn(InputKey.Right),
     yUp = this.input.btn(InputKey.Up),
@@ -140,8 +138,15 @@ export default class Player extends DCus {
     } else if (yDown < 0) {
     }
 
-    this.psfi.si = this.restI++ % t.half / t.half;
+    let sfx = (this.dynamic.grounded && (this.runLeft.sfx.sfx ||
+      this.runRight.sfx.sfx));
+
+    if (sfx) {
+      this.audio.sfx(sfx);
+    }
     
+    this.psfi.si = this.restI++ % t.half / t.half;
+
     this.entity.sfi =
       this.dash.sfi ||
       this.slideLeft.sfi ||

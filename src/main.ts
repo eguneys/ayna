@@ -6,26 +6,31 @@ import Input from './input';
 import { Context } from './context';
 import Canvas from './canvas';
 import Play from './play';
+import Audio from './audio';
+import audioData from './audio/data';
 
 export default function app(element: Element) {
 
-  loadImage(sprites8).then((image: HTMLImageElement) => {
-    let canvas = new Canvas(element);
-    let draw = new Draw(canvas.ctx, image);
-    let input = new Input();
-    input.bind();
-    input.bindGamepad();
+  let audio = new Audio();
 
-    let play = new Play({draw, 
-                         input});
-    animate(() => {
-      play.update();
-      input.update();
-      play.render();
+  Promise.all([loadImage(sprites8),
+               audio.generate(audioData)])
+    .then(([image, audio]) => {
+      let canvas = new Canvas(element);
+      let draw = new Draw(canvas.ctx, image);
+      let input = new Input();
+      input.bind();
+      input.bindGamepad();
+
+      let play = new Play({audio,
+                           draw, 
+                           input});
+      animate(() => {
+        play.update();
+        input.update();
+        play.render();
+      });
+      
     });
-
-  });
-
-  
 
 }

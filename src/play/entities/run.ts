@@ -6,9 +6,12 @@ import * as t from '../ticks';
 import State from './state';
 import { Direction } from '../direction';
 import { Sfi } from './sfi'
+import Sfx from './sfx';
+import * as sxs from './sxs';
 
 export default class RunDirection {
 
+  sfx: Sfx
   sfi?: Sfi
 
   set sf(r: Rect) {
@@ -23,6 +26,10 @@ export default class RunDirection {
     let p = Point.make(Math.floor(i * 3), 0);
     if (this.sfi) {
       this.sfi[1] = p;
+
+      if (p.x === 0) {
+        this.sfx.request(sxs.walkRandom());
+      }
     }
   }
   
@@ -52,6 +59,7 @@ export default class RunDirection {
   constructor(direction: Direction) {
     this.direction = direction;
 
+    this.sfx = new Sfx();
     this.dx = 0;
     
     this.Rest.begin();
@@ -97,6 +105,7 @@ export default class RunDirection {
   }
 
   update() {
+    this.sfx.update();
     this.Accel.update();
     this.Pace.update();
     this.Rest.update();

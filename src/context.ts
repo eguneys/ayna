@@ -1,7 +1,9 @@
+import Audio from './audio';
 import Draw from './draw';
 import Input from './input';
 
 export type Context = {
+  audio: Audio,
   draw: Draw,
   input: Input
 }
@@ -9,13 +11,13 @@ export type Context = {
 export abstract class Cus {
 
   context: Context
-  draw: Draw
-  input: Input
+
+  get draw(): Draw { return this.context.draw }
+  get input(): Input { return this.context.input }
+  get audio(): Audio { return this.context.audio }
 
   constructor(context: Context) {
     this.context = context;
-    this.draw = context.draw;
-    this.input = context.input;
   }
 
   abstract update(): void

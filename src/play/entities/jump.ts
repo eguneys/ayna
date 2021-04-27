@@ -9,7 +9,7 @@ import Point from '../point';
 
 export default class Jump {
 
-  static liftDimExpand = Point.make(0.6, 1.4);
+  static liftDimExpand = Point.make(0.7, 1.3);
   
   machine: Machine
   
