@@ -26,8 +26,9 @@ export default class RunDirection {
     let p = Point.make(Math.floor(i * 3), 0);
     if (this.sfi) {
       this.sfi[1] = p;
-
-      if (p.x === 0) {
+      if (i === 0) {
+        this.sfx.now(sxs.walkRandom());
+      } else {
         this.sfx.request(sxs.walkRandom());
       }
     }
@@ -56,10 +57,11 @@ export default class RunDirection {
 
   dx: number
   
-  constructor(direction: Direction) {
+  constructor(sfx: Sfx, direction: Direction) {
+
+    this.sfx = sfx;
     this.direction = direction;
 
-    this.sfx = new Sfx();
     this.dx = 0;
     
     this.Rest.begin();
@@ -105,7 +107,6 @@ export default class RunDirection {
   }
 
   update() {
-    this.sfx.update();
     this.Accel.update();
     this.Pace.update();
     this.Rest.update();

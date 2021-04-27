@@ -18,6 +18,7 @@ import SlideDirection from './slide';
 import Dash from './dash';
 import PSfi from './psfi';
 import * as sf from './sprites';
+import Sfx from './sfx';
 
 export default class Player extends DCus {
 
@@ -45,6 +46,8 @@ export default class Player extends DCus {
   slideLeft: SlideDirection
   dash: Dash
   pause: boolean = false
+
+  runSfx: Sfx
   
   get target(): Point {
     return this.entity.ahitbox.xy.sub(bs.HalfScreenSize);
@@ -62,8 +65,9 @@ export default class Player extends DCus {
     super(context,
           new Dynamic(entity));
 
-    this.runLeft = new RunDirection(-1);
-    this.runRight = new RunDirection(1);
+    this.runSfx = new Sfx();
+    this.runLeft = new RunDirection(this.runSfx, -1);
+    this.runRight = new RunDirection(this.runSfx, 1);
     this.jump = new Jump(this.dynamic, 8 * 4);
 
     this.slideRight = new SlideDirection(this.dynamic, 1, 8*0.8);
@@ -156,6 +160,8 @@ export default class Player extends DCus {
       this.runRight.sfi ||
       this.psfi.sfi;
 
+    this.runSfx.update();
+    
     this.dynamic.dx = this.runLeft.dx + this.runRight.dx;
     this.jump.update();
     this.runLeft.update();

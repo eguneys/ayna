@@ -2,19 +2,25 @@ import * as t from '../ticks';
 
 export default class Sfx {
 
-  sfxTo?: number
+  sfxNow?: number
   sfx?: number
 
   icool: number = 0
-  delay: number = t.sixth
+  delay: number = t.third
 
   constructor() {
   }
 
+  now(sfx: number) {
+    if (this.icool < t.lengths) {
+      this.sfxNow = sfx;
+    }
+  }
+  
   request(sfx: number) {
-    if (this.icool <= 0 && this.sfxTo === undefined) {
+    if (this.icool <= 0) {
       this.icool = this.delay + Math.random() * t.lengths;
-      this.sfxTo = sfx;
+      this.sfx = sfx;
     }
   }
 
@@ -23,11 +29,13 @@ export default class Sfx {
       this.icool--;
     }
     if (this.sfx) {
-      this.sfxTo = undefined;
       this.sfx = undefined;
     }
-    if (this.sfxTo) {
-      this.sfx = this.sfxTo;
+    if (this.icool <= 0) {
+      if (this.sfxNow) {
+        this.sfx = this.sfxNow;
+        this.sfxNow = undefined;
+      }
     }
   }
   
