@@ -124,8 +124,7 @@ export default class Jump {
       this.machine.transition('rest');
     } else {
       let _t = Math.min(i, this.gravityTicks)/this.gravityTicks;
-      this.dynamic.dy =
-        ease.easeOutCubic(_t) * this.fallVMax;
+      this.dynamic.dy = _t * this.fallVMax;
 
       this.dynamic.entity.dimExpand = this.dynamic.entity.dimExpand.ipol(i % t.second / t.second, Point.one);
     }

@@ -7,6 +7,7 @@ export type EasingFunctions = {
 }
 
 const all: EasingFunctions = {
+  linear: t => t,
   // acceleration until halfway, then deceleration
   easeInOutQuad: t => t<.5 ? 2*t*t : -1+(4-2*t)*t,
   // accelerating from zero velocity 

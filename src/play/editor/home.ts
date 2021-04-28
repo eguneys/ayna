@@ -73,27 +73,6 @@ SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS     SSSSSS         SSSSSSS
 SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS     SSSSSS         SSSSSSS
 `;
 
-let tutorial = `
-
-
-
-
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S
-                 S  S     S
-                 S  S     S
-        SSSS     S  S     S
-                 S  S     SSS
-SSSSS            S  S     S            S
-S     SSSS                S            S
-S             S      @    S            S
-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS`;
-
 let back = `
 
 
@@ -140,8 +119,6 @@ SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS     SSSSSS         SSSSSSS
 export const chars = {
   'F': first,
   'B': back,
-  'T': tutorial,
-  'Q': tutorial,
   '2': second,
   '3': third,
   '4': fourth

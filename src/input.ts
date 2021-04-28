@@ -1,5 +1,3 @@
-import { NRange } from './range';
-
 export enum InputKey {
   Left = 0,
   Right,
@@ -26,8 +24,6 @@ export type InputMap<A> = {
   [key in InputKey]?: A
 }
 
-export const ReleaseRange: NRange = [-10, 0];
-
 export default class Input {
 
   inputs: InputMap<InputState>
@@ -42,14 +38,14 @@ export default class Input {
     return this.inputs[key]?.btn||0;
   }
 
-  up(key: InputKey) {
+  private up(key: InputKey) {
     let s = this.inputs[key];
     if (s) {
       s.btn = -10;
     }
   }
 
-  down(key: InputKey) {
+  private down(key: InputKey) {
     let s = this.inputs[key];
     if (s) {
       if (s.btn > 0) {
@@ -64,7 +60,7 @@ export default class Input {
   }
 
   update() {
-    this.updateGamepad();
+    this.updateG();
     for (let key of inputKeys) {
       let input = this.inputs[key];
       if (input) {
@@ -123,52 +119,52 @@ export default class Input {
     });
   }
 
-  upGamepad(key: InputKey) {
+  upG(key: InputKey) {
     if (this.gamepadPressed[key]) {
       this.gamepadPressed[key] = false;
       this.up(key);
     }
   }
 
-  downGamepad(key: InputKey) {
+  downG(key: InputKey) {
     if (!this.gamepadPressed[key]) {
       this.gamepadPressed[key] = true;
       this.down(key);
     }    
   }
 
-  updateGamepad() {
+  updateG() {
 
     let gamepad = navigator.getGamepads()[0];
 
     if (gamepad) {
       if (gamepad.axes[0] === 1) {
-        this.downGamepad(InputKey.Right);
+        this.downG(InputKey.Right);
       } else if (gamepad.axes[0] === -1) {
-        this.downGamepad(InputKey.Left);
+        this.downG(InputKey.Left);
       } else {
-        this.upGamepad(InputKey.Left);
-        this.upGamepad(InputKey.Right);        
+        this.upG(InputKey.Left);
+        this.upG(InputKey.Right);        
       }
 
       if (gamepad.axes[1] === 1) {
-        this.downGamepad(InputKey.Down);
+        this.downG(InputKey.Down);
       } else if (gamepad.axes[1] === -1) {
-        this.downGamepad(InputKey.Up);
+        this.downG(InputKey.Up);
       } else {
-        this.upGamepad(InputKey.Down);
-        this.upGamepad(InputKey.Up);
+        this.upG(InputKey.Down);
+        this.upG(InputKey.Up);
       }
 
       if (gamepad.buttons[2].pressed) {
-        this.downGamepad(InputKey.X)
+        this.downG(InputKey.X)
       } else {
-        this.upGamepad(InputKey.X);
+        this.upG(InputKey.X);
       }
       if (gamepad.buttons[0].pressed) {
-        this.downGamepad(InputKey.C)
+        this.downG(InputKey.C)
       } else {
-        this.upGamepad(InputKey.C);
+        this.upG(InputKey.C);
       }
     }
 
@@ -176,8 +172,8 @@ export default class Input {
   }
 
   bindGamepad() {
-    window.addEventListener('gamepadconnected', e => {
-    });
+    // window.addEventListener('gamepadconnected', e => {
+    // });
   }
 
 }
