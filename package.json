@@ -8,7 +8,7 @@
     "build": "rm -rf lib && tsc",
     "start": "webpack serve --open",
     "prod": "webpack --env=production",
-    "dist": "rm -rf dist && yarn prod && zip -j dist.zip dist/*"
+    "dist": "rm -rf dist && yarn prod && zip -j -9 dist.zip dist/*"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^8.1.0",

@@ -136,7 +136,7 @@ export default class Rooms extends Cus {
     });
 
     this.worldCameraOffset(this.activeRect.x,
-                          this.activeRect.y);
+                           this.activeRect.y);
     this.player.render();
   }
   

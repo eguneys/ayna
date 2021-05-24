@@ -41,6 +41,12 @@ export default class Point {
     this.y = y;
   }
 
+  dist(p: Point) {
+    return Math.sqrt(
+      Math.pow(this.x - p.x, 2) +
+        Math.pow(this.y - p.y, 2));
+  }
+
   sub(p: Point) {
     return this.add(p.neg);
   }

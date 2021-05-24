@@ -83,7 +83,7 @@ export default class RunDirection {
   }
 
   accelBegin() {
-    this.sf = Rect.make(sf.player.turn);
+    //this.sf = Rect.make(sf.player.turn);
   }
 
   paceBegin() {

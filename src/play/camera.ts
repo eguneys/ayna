@@ -4,12 +4,22 @@ import Point from './point';
 
 export default class Camera {
 
-  target?: Point
+  _target?: Point
   frustum: Rect
   lock?: Rect
 
   willLock?: Rect
   iWillLock: number = 0;
+
+  get target(): Maybe<Point> {
+    return this._target;
+  }
+
+  set target(_: Maybe<Point>) {
+    if (!this._target || !_ || this._target.dist(_) > bs.Tile) {
+      this._target = _;
+    }
+  }
 
   get lockedFrustum() {
     if (this.lock) {
@@ -42,16 +52,16 @@ export default class Camera {
   }
 
   worldCameraOffset(x: number, y: number) {
-    return Point.make(x, y).sub(this.frustum.xy);
+    return Point.make(x, y).sub(this.lockedFrustum.xy);
   }
 
   update() {
 
     if (this.target) {
-      this.frustum = this.frustum.approach(this.target, 0.2, bs.Tile*0.25);
+      this.frustum = this.frustum.approach(this.target, 0.1, bs.Tile);
     }
 
-    this.frustum = this.lockedFrustum;
+    //this.frustum = this.lockedFrustum;
     
   }
   
