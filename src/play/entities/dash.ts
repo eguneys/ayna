@@ -7,12 +7,12 @@ import ease from '../ease';
 import PSfi from './psfi';
 import * as sf from './sprites';
 import Rect from '../rect';
+import Jump from './jump';
 
 export default class Dash {
 
-  static distance: number = bs.Tile * 8;
+  static distance: number = bs.Tile * 5;
   
-  dynamic: Dynamic
   xDirection: Direction
   yDirection: Direction
   machine: Machine
@@ -26,14 +26,14 @@ export default class Dash {
   
   get maxDashV() {
     let dashTicks = this.machine
-      .maybeState('dash',
+      .maybeState(this.machine.current,
                   _ => _.safeTicks)!;
 
     return 2 * Dash.distance / dashTicks;
   }
   
-  constructor(dynamic: Dynamic) {
-    this.dynamic = dynamic;
+  constructor(readonly dynamic: Dynamic,
+              readonly jump: Jump) {
     this.xDirection = 0;
     this.yDirection = 0;
     this.machine = new Machine({
@@ -42,7 +42,7 @@ export default class Dash {
           update: this.dashInputUpdate.bind(this)
         },
         next: 'dash',
-        ticks: t.lengths
+        ticks: t.sixth
       },
       dash: {
         hooks: {
@@ -50,15 +50,16 @@ export default class Dash {
           update: this.dashUpdate.bind(this)
         },
         next: 'dashCool',
-        ticks: t.third,
+        ticks: t.sixth,
         easing: ease.easeInOutQuad
       },
       dashCool: {
         hooks: {
-          update: this.dashCoolUpdate.bind(this)
+          update: this.dashCoolUpdate.bind(this),
+          end: this.dashCoolEnd.bind(this)
         },
         next: 'rest',
-        ticks: t.third
+        ticks: t.sixth
       },
       rest: {
         hooks: {
@@ -72,12 +73,22 @@ export default class Dash {
   xRequest(dir: Direction) {
     if (this.machine.current === 'dashInput') {
       this.xDirection = dir;
+
+      if (this.xDirection !== 0 && this.yDirection !== 0) {
+        this.xDirection *= 0.7;
+        this.yDirection *= 0.7;
+      }
     }
   }
 
   yRequest(dir: Direction) {
     if (this.machine.current === 'dashInput') {
       this.yDirection = dir;
+
+      if (this.xDirection !== 0 && this.yDirection !== 0) {
+        this.xDirection *= 0.7;
+        this.yDirection *= 0.7;
+      }      
     }
   }
   
@@ -120,6 +131,10 @@ export default class Dash {
   dashCoolUpdate(i: number) {
     this.dynamic.dx = (1-i) * this.xDirection * this.maxDashV * 0.5;
     this.dynamic.dy = (1-i) * this.yDirection * this.maxDashV * 0.5;
+  }
+
+  dashCoolEnd() {
+    this.jump.machine.transition('coyote');
   }
   
   update() {

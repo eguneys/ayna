@@ -40,13 +40,13 @@ export default class Play extends Cus {
       this.initAudio.request();
     } 
     
-    this.draw.camera();
-    this.draw.cls();
-    
     this.rooms.update();
   }
 
   render() {
+    this.draw.camera();
+    this.draw.cls();
+    
     this.rooms.render();
   }
   

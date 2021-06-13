@@ -53,42 +53,52 @@ let back = `
 
 
 
+                     SSSSSSS
+
+S
+
+S
+                                 
+                                  SSSSSS
 
 
 
+                     SSSSSSS
 
 
 
+         SSSSSSSSS
 
 
 
+  
 
-
+SSSSS
 
 
 
 SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS`;
 
 let first = `
+SSSSSSSSSSSSSSSSSSSSSSS
 
 
 
+                SSSSSSS
 
 
+    SSSSSSSSSS
 
 
+                 SS
 
 
-
-
-
-
-
+                        SS
 
 
         @                                               SSSSSSS
-     SSSSSSSSSSSSSSSSSS                   SSSSS         SSSSSSS
-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS     SSSSSS         SSSSSSS
+     SSSSSSSSSSSSSSSSSS                                 SSSSSSS
+SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 `;
 
 export const chars = {
@@ -100,8 +110,8 @@ export const chars = {
 
 
 export const level = `
-        
-BBFFFF
-BBFFFF
+BB    BB    
+BBFFFFBB
+BBFFFFBB
 
 `;

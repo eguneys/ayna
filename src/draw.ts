@@ -18,6 +18,7 @@ export default class Draw {
   camera(x: number = 0, y: number = 0) {
     x = Math.floor(x);
     y = Math.floor(y);
+    
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.translate(x, y);
   }

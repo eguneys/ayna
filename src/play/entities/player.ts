@@ -73,7 +73,7 @@ export default class Player extends DCus {
     this.slideRight = new SlideDirection(this.dynamic, 1, 8*0.8);
     this.slideLeft = new SlideDirection(this.dynamic, -1, 8*0.8);
 
-    this.dash = new Dash(this.dynamic);
+    this.dash = new Dash(this.dynamic, this.jump);
   }
 
   update() {

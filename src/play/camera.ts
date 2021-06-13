@@ -58,11 +58,8 @@ export default class Camera {
   update() {
 
     if (this.target) {
-      this.frustum = this.frustum.approach(this.target, 0.1, bs.Tile);
+      this.frustum = this.frustum.approach(this.target, 0.05, bs.Tile);
     }
-
-    //this.frustum = this.lockedFrustum;
-    
   }
   
 }

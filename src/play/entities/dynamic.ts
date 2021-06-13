@@ -30,12 +30,10 @@ export default class Dynamic {
   dx: number = 0
   dy: number = 0
 
+  facing: Direction = -1
+
   get collide(): CollideCheck {
     return this.entity.collide;
-  }
-
-  get facing(): Direction {
-    return Math.sign(this.dx) as Direction;
   }
 
   get facingLeft(): boolean {
@@ -67,6 +65,7 @@ export default class Dynamic {
         this.entity.moveX(step * - 1);
         return;
       }
+      this.facing = step as Direction;
     }
   }
 

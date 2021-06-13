@@ -13,8 +13,6 @@ export default class Jump {
   
   machine: Machine
   
-  maxHeight: number
-
   psfi: PSfi = new PSfi();
 
   get sfi() { return this.psfi.sfi };
@@ -44,13 +42,8 @@ export default class Jump {
     return this.dynamic.grounded;
   }
 
-  dynamic: Dynamic
-  
-  constructor(dynamic: Dynamic, maxHeight: number) {
-    this.dynamic = dynamic;
-
-    this.maxHeight = maxHeight;
-
+  constructor(readonly dynamic: Dynamic,
+              readonly maxHeight: number) {
 
     this.machine = new Machine({
       liftAccel: {
