@@ -125,6 +125,7 @@ export default class SlideDirection {
   }
 
   stickBegin() {
+    this.dynamic.facing = this.direction;
     this.psfi.sf = Rect.make(sf.player.stick);
   }
 

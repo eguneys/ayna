@@ -17,6 +17,14 @@ export default class Jump {
 
   get sfi() { return this.psfi.sfi };
 
+  set si(i: number) {
+    let p = Point.make(i, 0);
+
+    if (this.sfi) {
+      this.sfi[1] = p;
+    }
+  }
+
   get vMax(): number {
     let liftAccelTicks = this.machine
       .maybeState('liftAccel', _ => _.safeTicks)!,
@@ -131,11 +139,15 @@ export default class Jump {
 
   liftAccelBegin() {
     this.psfi.sf = Rect.make(sf.player.jump);
+    this.si = 0;
   }
   landAccelBegin() {}
   
   gravityBegin() {
     //this.dynamic.dy = this.landVMax * 0.5;
+
+    this.psfi.sf = Rect.make(sf.player.jump);
+    this.si = 2;
   }
   
   restBegin() {
@@ -146,6 +158,7 @@ export default class Jump {
 
   liftHangBegin() {
     this.dynamic.dy = 0;
+    this.si = 1;
   }
 
   liftDeccelUpdate(i: number) {
@@ -156,6 +169,7 @@ export default class Jump {
   
   liftAccelUpdate(i: number) {
     this.dynamic.dy = (-i) * this.vMax;
+    this.si = Math.floor(i * 1);
   }
 
   landAccelUpdate(i: number) {

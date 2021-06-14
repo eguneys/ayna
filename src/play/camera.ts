@@ -16,7 +16,7 @@ export default class Camera {
   }
 
   set target(_: Maybe<Point>) {
-    if (!this._target || !_ || this._target.dist(_) > bs.Tile) {
+    if (!this._target || !_ || this._target.dist(_) > 0) {
       this._target = _;
     }
   }
@@ -58,7 +58,7 @@ export default class Camera {
   update() {
 
     if (this.target) {
-      this.frustum = this.frustum.approach(this.target, 0.05, bs.Tile);
+      this.frustum = this.frustum.approach(this.target, 0.1, bs.Tile);
     }
   }
   
