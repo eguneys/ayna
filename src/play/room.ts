@@ -1,12 +1,13 @@
 import { Context, Cus } from '../context';
 import Point from './point';
+import Rect from './rect';
 import Grid from './grid';
 import * as cs from './chars';
 import * as bs from './bounds';
 import entities from './entities';
 import { SolidChar, PlayerChar } from './chars';
 import { RoomDef } from './editor';
-import { room } from './load';
+import { room, roomSize } from './load';
 
 export default class Room extends Cus {
 
@@ -20,7 +21,7 @@ export default class Room extends Cus {
     this.checkpoints = [];
   }
 
-  load(rd: RoomDef) {
+  load(rd: RoomDef, index: number) {
 
     let cc = room(rd);
 
@@ -48,5 +49,5 @@ export default class Room extends Cus {
   render() {
     this.grid.render(this.draw);
   }
-  
 }
+  

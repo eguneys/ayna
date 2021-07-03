@@ -9,7 +9,7 @@ import Point from '../point';
 
 export default class Jump {
 
-  static liftDimExpand = Point.make(0.98, 1.2);
+  static liftDimExpand = Point.make(0.8, 1.2);
   
   machine: Machine
   
@@ -67,7 +67,7 @@ export default class Jump {
           update: this.liftDeccelUpdate.bind(this)
         },
         next: 'liftHang',
-        ticks: t.half
+        ticks: t.third
       },
       liftHang: {
         hooks: {
@@ -127,7 +127,7 @@ export default class Jump {
       let _t = Math.min(i, this.gravityTicks)/this.gravityTicks;
       this.dynamic.dy = _t * this.fallVMax;
 
-      this.dynamic.entity.dimExpand = this.dynamic.entity.dimExpand.ipol(i % t.second / t.second, Point.one);
+      this.dynamic.entity.dimExpand = this.dynamic.entity.dimExpand.ipol(i % t.twoth / t.twoth, Point.one);
     }
   }
   

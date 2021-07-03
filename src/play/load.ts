@@ -27,9 +27,9 @@ export function level(level: LevelDef, chars: RoomsCharMap<RoomDef>) {
 }
 
 export function room(room: RoomDef) {
+  let ns = room.split('\n');
   return (char: string) => {
     let res: Array<Point> = [];
-    let ns = room.split('\n');
     ns.forEach((line, y) => {
       for (let x = 0; x < line.length; x++) {
         if (line[x] && line[x] === char) {
@@ -39,4 +39,13 @@ export function room(room: RoomDef) {
     });
     return res;
   };
+}
+
+export function roomSize(room: RoomDef) {
+  let ns = room.split('\n');
+
+  let mw = ns.reduce((acc, line) =>
+    Math.max(acc, line.length), 0);
+
+  return Point.make(mw, ns.length);
 }

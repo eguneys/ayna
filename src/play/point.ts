@@ -70,6 +70,15 @@ export default class Point {
       i(_i, this.x, to.x),
       i(_i, this.y, to.y)
     );
-  }  
+  }
+
+  iterateZero(step: Point, fn: (x: number, y: number) => void) {
+    for (let i = 0; i < this.x; i += step.x) {
+      for (let j = 0; j < this.y; j += step.y) {
+        fn(i, j);
+      }
+    }
+    
+  }
   
 }

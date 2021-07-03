@@ -87,6 +87,7 @@ export default class Rect {
   }
 
   get xy(): Point { return Point.make(this.x, this.y); }
+  get wh(): Point { return Point.make(this.w, this.h); }
 
   get origin(): Point { return Point.make(this.x + this.w / 2,
                                           this.y + this.h / 2); }

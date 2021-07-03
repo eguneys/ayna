@@ -10,6 +10,7 @@ import Room from './room';
 import { level } from './load';
 import Camera from './camera';
 import RoomTransition from './roomtransition';
+import Background from './background';
 
 export default class Rooms extends Cus {
 
@@ -19,6 +20,8 @@ export default class Rooms extends Cus {
   transition: RoomTransition
   activeRoom!: Room
   player!: Player
+
+  background: Background
 
   get visible(): Array<Room> {
     let { frustum } = this.camera;
@@ -58,16 +61,18 @@ export default class Rooms extends Cus {
     this.rev = new Map<Room, Rect>();
 
     this.transition = new RoomTransition(this.camera,
-                                         this.onTransitionBegin.bind(this),
-                                         this.onTransitionEnd.bind(this));
+                                         this.onTransitionBegin,
+                                         this.onTransitionEnd);
+
+    this.background = new Background(context);
 
   }
 
-  onTransitionBegin() {
+  onTransitionBegin = () => {
     this.player.pause = true;
   }
   
-  onTransitionEnd() {
+  onTransitionEnd = () => {
     if (this.willTransitionToRoom) {
       this.player.pause = false;
       let oldActiveRect = this.activeRect;
@@ -83,11 +88,10 @@ export default class Rooms extends Cus {
 
   load(ld: LevelDef, chars: RoomsCharMap<RoomDef>) {
 
-    level(ld, chars).map(([rd, r]) => {
+    level(ld, chars).map(([rd, r], i) => {
       let rect = r.mul(bs.RoomTileWidth, bs.RoomTileHeight);
       let room = new Room(this.context)
-
-      room.load(rd);
+      room.load(rd, i);
       
       this.dquad.add(rect, room);
       this.rev.set(room, rect);
@@ -114,9 +118,10 @@ export default class Rooms extends Cus {
     this.player.update();
 
     this.camera.target = this.playerTarget;
-
+    
     this.camera.update();
-    this.transition.update();    
+    this.transition.update();
+    this.background.update();
 
     let troom = this.willTransitionToRoom;
     if (troom) {
@@ -124,20 +129,29 @@ export default class Rooms extends Cus {
     }
   }
 
-  worldCameraOffset(x: number, y: number) {
-    let off = this.camera.worldCameraOffset(x, y);    
+  worldCameraOffset(x: number, y: number, depth: number = 1) {
+    let off = this.camera.worldCameraOffset(x, y)
+      .scale(depth);
     this.draw.camera(off.x, off.y);
   }
   
   render() {
+
+    this.worldCameraOffset(this.activeRect.x,
+                           this.activeRect.y, 0.2);
+
+    this.background.render();
+    
     this.visible.forEach(_ => {
       let rect = this.rev.get(_)!;
+
       this.worldCameraOffset(rect.x, rect.y);
       _.render()
     });
 
     this.worldCameraOffset(this.activeRect.x,
                            this.activeRect.y);
+
     this.player.render();
   }
   

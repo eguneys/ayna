@@ -115,9 +115,6 @@ export default class Dash {
 
   dashBegin() {
     this.dJump--;
-    if (this.dynamic.dy > 0) {
-      this.psfi.sf = Rect.make(sf.player.jump);
-    }
   }
 
   dashInputUpdate(i: number) {
