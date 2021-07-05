@@ -106,10 +106,10 @@ export default class RunDirection {
     this.si = i % t.half / t.half;
   }
 
-  update() {
-    this.Accel.update();
-    this.Pace.update();
-    this.Rest.update();
+  update(dt: number) {
+    this.Accel.update(dt);
+    this.Pace.update(dt);
+    this.Rest.update(dt);
   }
   
 }

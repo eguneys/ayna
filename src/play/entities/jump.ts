@@ -60,7 +60,7 @@ export default class Jump {
           update: this.liftAccelUpdate.bind(this)
         },
         next: 'liftDeccel',
-        ticks: 1
+        ticks: t.oneth
       },
       liftDeccel: {
         hooks: {
@@ -179,8 +179,8 @@ export default class Jump {
     this.dynamic.dy = 0;
   }
 
-  update() {
-    this.machine.update();
+  update(dt: number) {
+    this.machine.update(dt);
   }
   
 }

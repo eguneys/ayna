@@ -20,7 +20,7 @@ export abstract class Cus {
     this.context = context;
   }
 
-  abstract update(): void
+  abstract update(dt: number): void
   abstract render(): void
   
 }

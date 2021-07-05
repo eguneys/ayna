@@ -27,9 +27,10 @@ export default function app(element: Element) {
       let play = new Play({ draw,
                             audio,
                            input});
-      animate(() => {
-        play.update();
-        input.update();
+      animate((dt: number) => {
+        play.update(dt);
+        input.update(dt);
+      }, () => {
         play.render();
       });
       

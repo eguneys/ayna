@@ -53,10 +53,10 @@ export default class State {
     this.hooks.end?.();
   }
 
-  update() {
+  update(dt: number) {
 
     if (this.i >= 0) {
-      this.i++;
+      this.i+=dt;
 
       let t = this.i/(this.ticks || 1);
       this.hooks.update?.(this.easing(t), this.ticks||this.i);

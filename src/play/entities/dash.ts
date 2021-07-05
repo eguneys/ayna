@@ -136,8 +136,8 @@ export default class Dash {
     this.jump.machine.transition('coyote');
   }
   
-  update() {
-    this.machine.update();
+  update(dt: number) {
+    this.machine.update(dt);
   }
   
 }

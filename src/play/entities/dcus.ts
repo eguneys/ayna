@@ -40,7 +40,7 @@ export default abstract class DCus extends Cus {
     this.dynamic = dynamic;
   }
 
-  update() {
-    this.dynamic.move();
+  update(dt: number) {
+    this.dynamic.move(dt);
   }
 }

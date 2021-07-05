@@ -9,7 +9,7 @@ export default class Background extends Cus {
     super(context);
   }
 
-  update() {
+  update(dt: number) {
   }
 
   render() {

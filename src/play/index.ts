@@ -22,7 +22,7 @@ export default class Play extends Cus {
     
   }
 
-  update() {
+  update(dt: number) {
 
     let xLeft = this.input.btn(InputKey.Left),
     xRight = this.input.btn(InputKey.Right),
@@ -40,7 +40,7 @@ export default class Play extends Cus {
       this.initAudio.request();
     } 
     
-    this.rooms.update();
+    this.rooms.update(dt);
   }
 
   render() {

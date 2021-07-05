@@ -1,6 +1,6 @@
 export type Ticks = number
 
-export const rate = 1
+export const rate = 1/60;
 
 export const second = 60 * rate
 export const half = 30 * rate

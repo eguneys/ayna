@@ -47,8 +47,8 @@ export default class RoomTransition {
     this.camera.iWillLock = i;
   }
 
-  update() {
-    this.machine.update();
+  update(dt: number) {
+    this.machine.update(dt);
   }
   
 }

@@ -1,3 +1,5 @@
+import * as ticks from './play/ticks';
+
 export enum InputKey {
   Left = 0,
   Right,
@@ -41,7 +43,7 @@ export default class Input {
   private up(key: InputKey) {
     let s = this.inputs[key];
     if (s) {
-      s.btn = -10;
+      s.btn = -ticks.sixth;
     }
   }
 
@@ -50,22 +52,22 @@ export default class Input {
     if (s) {
       if (s.btn > 0) {
       } else {
-        s.btn = 1;
+        s.btn = ticks.oneth;
       }
     } else {
       this.inputs[key] = {
-        btn: 1
+        btn: ticks.oneth
       }
     }
   }
 
-  update() {
+  update(dt: number) {
     this.updateG();
     for (let key of inputKeys) {
       let input = this.inputs[key];
       if (input) {
-        if (input.btn !== 0) {
-          input.btn++;
+        if (Math.abs(input.btn) < 0.00000001) {
+          input.btn += dt;
         }
       }
     }

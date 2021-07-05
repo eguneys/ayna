@@ -90,9 +90,9 @@ export default class Machine {
     });
   }
 
-  update() {
+  update(dt: number) {
     this.maybeState(this.current, _ => {
-      _.update();
+      _.update(dt);
     });
   }
 

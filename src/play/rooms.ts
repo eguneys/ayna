@@ -114,14 +114,14 @@ export default class Rooms extends Cus {
     this.camera.lock = this.activeRect;
   }
 
-  update() {
-    this.player.update();
+  update(dt: number) {
+    this.player.update(dt);
 
     this.camera.target = this.playerTarget;
     
-    this.camera.update();
-    this.transition.update();
-    this.background.update();
+    this.camera.update(dt);
+    this.transition.update(dt);
+    this.background.update(dt);
 
     let troom = this.willTransitionToRoom;
     if (troom) {

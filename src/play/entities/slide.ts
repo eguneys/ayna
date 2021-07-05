@@ -186,8 +186,8 @@ export default class SlideDirection {
     }
   }
 
-  update() {
-    this.machine.update();
+  update(dt: number) {
+    this.machine.update(dt);
   }
   
 }

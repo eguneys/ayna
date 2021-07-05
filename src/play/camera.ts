@@ -55,7 +55,7 @@ export default class Camera {
     return Point.make(x, y).sub(this.lockedFrustum.xy);
   }
 
-  update() {
+  update(dt: number) {
 
     if (this.target) {
       this.frustum = this.frustum.approach(this.target, 0.1, bs.Tile);

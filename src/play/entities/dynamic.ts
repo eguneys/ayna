@@ -44,16 +44,19 @@ export default class Dynamic {
     this.entity = entity;
   }
 
-  move() {
-    this.remx += this.dx;
-    let dx = Math.floor(this.remx);
-    this.remx -= dx;
-    this.moveX(dx)
+  move(dt: number) {
+    let x = this.dx * dt;
+    this.remx += x;
+    x = Math.floor(this.remx);
+    this.remx -= x;
+    this.moveX(x)
 
-    this.remy += this.dy;
-    let dy = Math.floor(this.remy);
-    this.remy -= dy;
-    this.moveY(dy)
+    let y = this.dy * dt;
+    
+    this.remy += y;
+    y = Math.floor(this.remy);
+    this.remy -= y;
+    this.moveY(y)
   }
 
   moveX(amount: number) {

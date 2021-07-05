@@ -76,7 +76,7 @@ export default class Player extends DCus {
     this.dash = new Dash(this.dynamic, this.jump);
   }
 
-  update() {
+  update(dt: number) {
     let xLeft = this.input.btn(InputKey.Left),
     xRight = this.input.btn(InputKey.Right),
     yUp = this.input.btn(InputKey.Up),
@@ -163,16 +163,16 @@ export default class Player extends DCus {
     this.runSfx.update();
     
     this.dynamic.dx = this.runLeft.dx + this.runRight.dx;
-    this.jump.update();
-    this.runLeft.update();
-    this.runRight.update();
-    this.slideRight.update();
-    this.slideLeft.update();
-    this.dash.update();
+    this.jump.update(dt);
+    this.runLeft.update(dt);
+    this.runRight.update(dt);
+    this.slideRight.update(dt);
+    this.slideLeft.update(dt);
+    this.dash.update(dt);
 
     if (this.pause) {
     } else {
-      super.update();
+      super.update(dt);
     }
   }
 
